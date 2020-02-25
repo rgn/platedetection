@@ -1,0 +1,21 @@
+<p *ngIf="!job"><em>Loading...</em></p>
+
+<div *ngIf="job">
+  <h1>Job {{ job.jobId }}</h1>
+  <div class="card" style="width: 36rem;">
+    <div class="card-body">
+      <h5 class="card-title">File: {{ job.fileName }}</h5>
+      <img #plateimage src="https://localhost:5001/api/job/{{ job.jobId }}/image" />
+      <canvas #canvas width="{{ job.imageWidth }}" height="{{ job.imageHeight }}" style="background-color:aquamarine;border-style:solid;"></canvas>
+      <p #pRef>blah</p>
+      <p class="card-text">
+        Dimensions: {{ job.imageWidth }}x{{ job.imageHeight }}<br />
+        Time to process: {{ job.totalProcessingTimeInMs }}<br />
+        State: {{ job.state }}
+      </p>
+      <app-result-detail *ngFor="let detectionResult of job.detectionResults"
+                         [result]="detectionResult"></app-result-detail>
+      <a [routerLink]="['/jobs']" class="btn btn-primary">To overview</a>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,24 @@
+<h1 id="tableLabel">Jobs</h1>
+
+<p *ngIf="!jobs"><em>Loading...</em></p>
+
+<table class='table table-striped' aria-labelledby="tableLabel" *ngIf="jobs">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>File</th>
+      <th>Dimensions</th>
+      <th>ProcessingTime (MS)</th>
+      <th>State</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let job of jobs">
+      <td><a [routerLink]="['/job', job.jobId]">{{ job.jobId }}</a></td>
+      <td>{{ job.fileName }}</td>
+      <td>{{ job.imageWidth }}x{{ job.imageHeight }}</td>
+      <td>{{ job.totalProcessingTimeInMs }}</td>
+      <td>{{ job.state }}</td>
+    </tr>
+  </tbody>
+</table>

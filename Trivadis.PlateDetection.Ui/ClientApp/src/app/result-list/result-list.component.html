@@ -1,0 +1,24 @@
+<h1 id="tableLabel">Results</h1>
+
+<p *ngIf="!results"><em>Loading...</em></p>
+
+<table class='table table-striped' aria-labelledby="tableLabel" *ngIf="results">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Region</th>
+      <th>RegionConfidence</th>
+      <th>RequestedTopN</th>
+      <th>ProcessingTimeInMs</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let result of results">
+      <td>{{ result.detectionResultId }}</td>
+      <td>{{ result.region }}</td>
+      <td>{{ result.regionConfidence }}</td>
+      <td>{{ result.requestedTopN }}</td>
+      <td>{{ result.processingTimeInMs }}</td>
+    </tr>
+  </tbody>
+</table>

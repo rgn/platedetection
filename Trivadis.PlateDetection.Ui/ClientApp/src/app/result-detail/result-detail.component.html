@@ -1,0 +1,23 @@
+<h3>Result: {{ result.detectionResultId }}</h3>
+<p class="card-text">
+  Region: {{ result.region }}<br />
+  Confidence: {{ result.regionConfidence }}<br />
+  TopN: {{ result.requestedTopN }}<br />
+  Time to process: {{ result.processingTimeInMs }}
+</p>
+<table>
+  <thead>
+    <tr>
+      <th>Characters</th>
+      <th>MatchesTemplate</th>
+      <th>Confidence</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let plate of sortDetectedPlatesBy('overallConfidence')">
+      <td>{{ plate.characters }}</td>
+      <td>{{ plate.matchesTemplate }}</td>
+      <td>{{ plate.overallConfidence }}</td>
+    </tr>    
+  </tbody>
+</table>

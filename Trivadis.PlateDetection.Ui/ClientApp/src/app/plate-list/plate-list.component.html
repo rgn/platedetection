@@ -1,0 +1,22 @@
+<h1 id="tableLabel">Plates</h1>
+
+<p *ngIf="!plates"><em>Loading...</em></p>
+
+<table class='table table-striped' aria-labelledby="tableLabel" *ngIf="plates">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>MatchesTemplate</th>
+      <th>OverallConfidence</th>
+      <th>Characters</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let plate of plates">
+      <td>{{ plate.detectedPlateId }}</td>
+      <td>{{ plate.matchesTemplate }}</td>
+      <td>{{ plate.overallConfidence }}</td>
+      <td>{{ plate.characters }}</td>
+    </tr>
+  </tbody>
+</table>
