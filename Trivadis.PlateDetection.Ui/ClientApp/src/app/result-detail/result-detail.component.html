@@ -1,23 +1,33 @@
-<h3>Result: {{ result.detectionResultId }}</h3>
-<p class="card-text">
-  Region: {{ result.region }}<br />
-  Confidence: {{ result.regionConfidence }}<br />
-  TopN: {{ result.requestedTopN }}<br />
-  Time to process: {{ result.processingTimeInMs }}
-</p>
-<table>
-  <thead>
-    <tr>
-      <th>Characters</th>
-      <th>MatchesTemplate</th>
-      <th>Confidence</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let plate of sortDetectedPlatesBy('overallConfidence')">
-      <td>{{ plate.characters }}</td>
-      <td>{{ plate.matchesTemplate }}</td>
-      <td>{{ plate.overallConfidence }}</td>
-    </tr>    
-  </tbody>
-</table>
+<div class="col-sm">
+  <div class="card">
+    <div class="card-header">
+      <h5 class="card-title">Result {{ result.detectionResultId }}</h5>
+    </div>
+    <div class="card-body">
+      <p class="card-text">
+        Region: {{ result.region }}<br />
+        Confidence: {{ result.regionConfidence }}<br />
+        TopN: {{ result.requestedTopN }}<br />
+        Time to process: {{ result.processingTimeInMs }}
+      </p>
+    </div>
+    <div class="card-footer text-muted">
+      <table class="table table-sm table-hover">
+        <thead>
+          <tr>
+            <th>Characters</th>
+            <th>MatchesTemplate</th>
+            <th>Confidence</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let plate of sortDetectedPlatesBy('overallConfidence')">
+            <td>{{ plate.characters }}</td>
+            <td>{{ plate.matchesTemplate }}</td>
+            <td>{{ plate.overallConfidence }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

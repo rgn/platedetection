@@ -1,14 +1,17 @@
 <h1>Hello, world!</h1>
-<p>Welcome to your new single-page application, built with:</p>
+<p>Welcome to the car license plate detection demonstration.</p>
+<p>This projects is for educational purposes to get into licences plate detection and working with Entity Framework.</p>
+<p>We utilize the following compontents:</p>
 <ul>
-  <li><a href='https://get.asp.net/'>ASP.NET Core</a> and <a href='https://msdn.microsoft.com/en-us/library/67ef8sbd.aspx'>C#</a> for cross-platform server-side code</li>
-  <li><a href='https://angular.io/'>Angular</a> and <a href='http://www.typescriptlang.org/'>TypeScript</a> for client-side code</li>
-  <li><a href='http://getbootstrap.com/'>Bootstrap</a> for layout and styling</li>
+  <li><a href="https://github.com/openalpr/openalpr">openalpr</a> for license plate recognition.</li>
+  <li><a href="https://www.postgresql.org/">PostreSQL</a> as data storage.</li>
+  <li><a href="https://www.pgadmin.org/">pgAdmin</a> to manage the data storage.</li>
+  <li><a href="https://kafka.apache.org/">Apache Kafka</a> for fast event drivate message distribution.</li>
 </ul>
-<p>To help you get started, we've also set up:</p>
+PostgreSQL, pgAdmin and Kafka are running in a dockerized environment.
+<p>ToDos:</p>
 <ul>
-  <li><strong>Client-side navigation</strong>. For example, click <em>Counter</em> then <em>Back</em> to return here.</li>
-  <li><strong>Angular CLI integration</strong>. In development mode, there's no need to run <code>ng serve</code>. It runs in the background automatically, so your client-side resources are dynamically built on demand and the page refreshes when you modify any file.</li>
-  <li><strong>Efficient production builds</strong>. In production mode, development-time features are disabled, and your <code>dotnet publish</code> configuration automatically invokes <code>ng build</code> to produce minified, ahead-of-time compiled JavaScript files.</li>
+  <li>Extend the documentation.</li>
+  <li>Dockerize the web app.</li>
+  <li>Dockerize the regognition service.</li>
 </ul>
-<p>The <code>ClientApp</code> subdirectory is a standard Angular CLI application. If you open a command prompt in that directory, you can run any <code>ng</code> command (e.g., <code>ng test</code>), or use <code>npm</code> to install extra packages into it.</p>

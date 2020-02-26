@@ -14,5 +14,5 @@ export class ResultDetailComponent {
 
   sortDetectedPlatesBy(prop: string) {
     return this.result.detectedPlates.sort((a, b) => b[prop] > a[prop] ? 1 : a[prop] === b[prop] ? 0 : -1);
-  }
+  } 
 }

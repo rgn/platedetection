@@ -13,11 +13,13 @@ import { ResultListComponent } from './result-list/result-list.component';
 import { ResultDetailComponent } from './result-detail/result-detail.component';
 import { PlateListComponent } from './plate-list/plate-list.component';
 import { PlateDetailComponent } from './plate-detail/plate-detail.component';
+import { EnumAsStringPipe } from './enumasstring.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavMenuComponent,
+    EnumAsStringPipe,
     HomeComponent,
     JobListComponent,
     JobDetailComponent,

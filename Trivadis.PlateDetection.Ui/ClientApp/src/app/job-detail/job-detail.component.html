@@ -1,21 +1,28 @@
 <p *ngIf="!job"><em>Loading...</em></p>
 
-<div *ngIf="job">
-  <h1>Job {{ job.jobId }}</h1>
-  <div class="card" style="width: 36rem;">
-    <div class="card-body">
-      <h5 class="card-title">File: {{ job.fileName }}</h5>
-      <img #plateimage src="https://localhost:5001/api/job/{{ job.jobId }}/image" />
-      <canvas #canvas width="{{ job.imageWidth }}" height="{{ job.imageHeight }}" style="background-color:aquamarine;border-style:solid;"></canvas>
-      <p #pRef>blah</p>
-      <p class="card-text">
-        Dimensions: {{ job.imageWidth }}x{{ job.imageHeight }}<br />
-        Time to process: {{ job.totalProcessingTimeInMs }}<br />
-        State: {{ job.state }}
-      </p>
-      <app-result-detail *ngFor="let detectionResult of job.detectionResults"
-                         [result]="detectionResult"></app-result-detail>
-      <a [routerLink]="['/jobs']" class="btn btn-primary">To overview</a>
+<div class="row" *ngIf="job">
+  <div class="col-sm">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="card-title">Job {{ job.jobId }}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">File: {{ job.fileName }}</h6>
+      </div>
+      <div class="card-body">
+        <img #plateimage src="https://localhost:5001/api/job/{{ job.jobId }}/image" class="card-img-top" />
+        <canvas #canvas width="{{ job.imageWidth }}" height="{{ job.imageHeight }}" class="card-img-top"></canvas>
+      </div>
+      <div class="card-footer text-muted">
+        <p class="card-text">
+          Dimensions: {{ job.imageWidth }}x{{ job.imageHeight }}<br />
+          Time to process: {{ job.totalProcessingTimeInMs }}<br />
+          State: {{ job.state | EnumAsString:JobState }}
+        </p>
+        <a [routerLink]="['/jobs']" class="btn btn-primary">To overview</a>
+      </div>
     </div>
   </div>
+</div>
+<div class="row" *ngIf="job">
+  <app-result-detail *ngFor="let detectionResult of job.detectionResults"
+                    [result]="detectionResult"></app-result-detail>
 </div>

@@ -1,15 +1,10 @@
-import { Component, Inject, OnInit, ViewChild, ViewChildren, AfterViewInit, ElementRef, TemplateRef } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Job } from '../models/job.model';
+import { JobState } from '../models/jobstate.model';
 import { DetectedPoint } from '../models/detectedpoint.model';
-
-interface Rectangle {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-}
+import { DetectionResult } from '../models/detectionresult.model';
 
 @Component({
   selector: 'app-job-detail',
@@ -19,6 +14,7 @@ export class JobDetailComponent implements OnInit {
 
   private jobId: string;
   public job: Job;
+  public JobState = JobState;
  
   private context: CanvasRenderingContext2D;
   private plateImageElementRef: ElementRef;
@@ -33,15 +29,20 @@ export class JobDetailComponent implements OnInit {
     var self = this;
     this.plateImage.onload = () => {
       self.context.drawImage(self.plateImage, 0, 0);
-      self.context.lineWidth = 3;
-      self.context.strokeStyle = '#38f';
+      
+      var lineWidth: number = 2;
+      var fontSize: number = 8;
+      var margin: number = 2;         
+
+      self.context.lineWidth = lineWidth;
 
       if (self.job !== undefined && self.job !== null) {
         self.job.detectionResults.forEach(detectionResult => {
           if (detectionResult.detectedPoints === undefined || detectionResult.detectedPoints === null) return;                    
           var first = true;
           var convexHull = this.makeHull(detectionResult.detectedPoints);
-          var endPoint = convexHull[convexHull.length - 1];          
+          var startPoint = convexHull[0];
+          var endPoint = convexHull[convexHull.length - 1];
           self.context.beginPath();
           convexHull.forEach(detectedPoint => {
             if (first) {
@@ -52,10 +53,23 @@ export class JobDetailComponent implements OnInit {
             }
           });
           self.context.closePath();
+          self.context.fillStyle = '#38f';
+          self.context.strokeStyle = '#38f';
           self.context.stroke();
-          self.context.fillRect(endPoint.x, endPoint.y, 100, 100);
+
+          if (detectionResult.detectedPlates !== null && detectionResult.detectedPlates.length > 0) {
+            var mostConfidentPlate = this.sortDetectedPlatesBy(detectionResult, 'overallConfidence')[0];
+            var textMetrics = self.context.measureText(mostConfidentPlate.characters);
+            var boxWidth = textMetrics.width + margin * 2;
+            var boxHeight = fontSize + margin * 2;
+            self.context.fillRect(startPoint.x - lineWidth / 2, startPoint.y, boxWidth, -(boxHeight));
+            self.context.font = `${fontSize}px Arial`;
+            self.context.fillStyle = '#fff';
+            self.context.fillText(mostConfidentPlate.characters, startPoint.x + margin, startPoint.y - margin);
+          }
         });
       }
+      this.plateImage.remove();
     }
   }
 
@@ -63,6 +77,8 @@ export class JobDetailComponent implements OnInit {
     if (content === undefined || content === null || content.nativeElement === undefined || content.nativeElement === null) return;
     this.canvasElementRef = content;
     this.context = this.canvasElementRef.nativeElement.getContext('2d');
+    var blah = this.canvasElementRef.nativeElement as HTMLCanvasElement;
+    this.setHiDPICanvas(this.canvasElementRef, blah.width, blah.height, this.getPixelRatio(this.context));
   }
 
   constructor(
@@ -144,5 +160,29 @@ export class JobDetailComponent implements OnInit {
     });
     return this.makeHullPresorted(newPoints);
   };
+
+  sortDetectedPlatesBy(result: DetectionResult, prop: string) {
+    return result.detectedPlates.sort((a, b) => b[prop] > a[prop] ? 1 : a[prop] === b[prop] ? 0 : -1);
+  }
+
+  getPixelRatio(ctx: CanvasRenderingContext2D): number {
+    const dpr = window.devicePixelRatio || 1;   
+    //const bsr = ctx.webkitBackingStorePixelRatio ||
+    //  ctx.mozBackingStorePixelRatio ||
+    //  ctx.msBackingStorePixelRatio ||
+    //  ctx.oBackingStorePixelRatio ||
+    //  ctx.backingStorePixelRatio || 1;
+    //return dpr / bsr;
+    return dpr;
+  }
+
+  setHiDPICanvas = function (canvas: ElementRef, w: number, h: number, pixelRatio: number) {    
+    var can = canvas;
+    can.nativeElement.width = w * pixelRatio;
+    can.nativeElement.height = h * pixelRatio;    
+    can.nativeElement.style.width = w + "px";
+    can.nativeElement.style.height = h + "px";
+    can.nativeElement.getContext("2d").setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+  }
 }
 
